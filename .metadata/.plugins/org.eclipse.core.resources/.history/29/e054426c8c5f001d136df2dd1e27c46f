@@ -1,0 +1,15 @@
+package com.socialapp.services;
+
+import com.socialapp.entities.User;
+import com.socialapp.payloads.UserDto;
+
+import java.util.List;
+
+public interface UserService {
+	
+	UserDto createUser(User user);
+	UserDto updateUser(UserDto user, Integer userId);
+	UserDto getUserById(Integer userId);
+	List<UserDto> getAllUser();
+	void deleteUser(Integer userId);
+}

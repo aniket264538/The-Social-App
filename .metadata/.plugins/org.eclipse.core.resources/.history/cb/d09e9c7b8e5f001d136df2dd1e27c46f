@@ -1,0 +1,5 @@
+package com.socialapp.exceptions;
+
+public class ResourceNotFoundException {
+
+}
