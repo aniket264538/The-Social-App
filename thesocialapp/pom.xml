@@ -11,7 +11,7 @@
 	<artifactId>thesocialapp</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>thesocialapp</name>
-	<description>The SocialApp API&apos;s </description>
+	<description>The SocialApp API's </description>
 	<properties>
 		<java.version>17</java.version>
 	</properties>

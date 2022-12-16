@@ -2,7 +2,12 @@ package com.socialapp.services.impl;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
+import org.hibernate.hql.internal.ast.tree.IsNullLogicOperatorNode;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +21,8 @@ import com.socialapp.repositories.CategoryRepo;
 import com.socialapp.repositories.PostRepo;
 import com.socialapp.repositories.UserRepo;
 import com.socialapp.services.PostService;
+
+import net.bytebuddy.asm.Advice.This;
 
 @Service
 public class PostServiceImpl implements PostService {
@@ -46,50 +53,81 @@ public class PostServiceImpl implements PostService {
 		post.setAddedDate(new Date());
 		post.setUser(user);
 		post.setCategory(category);
-		
+
 		Post newPost = this.postRepo.save(post);
-		
+
 		return this.modelMapper.map(newPost, PostDto.class);
 	}
 
 	@Override
 	public PostDto updatePost(PostDto postDto, Integer postId) {
-		// TODO Auto-generated method stub
-		return null;
+		Post post = this.postRepo.findById(postId)
+				.orElseThrow(() -> new ResourceNotFoundException("Post", "post id", postId));
+		
+		post.setTitle(postDto.getTitle());
+		post.setContent(postDto.getContent());
+		post.setImageName(postDto.getImageName());
+		
+		Post savedPost = this.postRepo.save(post);
+		
+		
+		return this.modelMapper.map(savedPost, PostDto.class);
 	}
 
 	@Override
 	public void deletePost(Integer postId) {
-		// TODO Auto-generated method stub
+		Post post = this.postRepo.findById(postId)
+				.orElseThrow(() -> new ResourceNotFoundException("Post", "Post Id", postId));
+
+		this.postRepo.delete(post);
 
 	}
 
 	@Override
-	public List<Post> getAllPost() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<PostDto> getAllPost() {
+
+		List<Post> posts = this.postRepo.findAll();
+
+		List<PostDto> postDtos = posts.stream().map((post) -> this.modelMapper.map(post, PostDto.class))
+				.collect(Collectors.toList());
+
+		return postDtos;
 	}
 
 	@Override
-	public Post getPostById(Integer postid) {
-		// TODO Auto-generated method stub
-		return null;
+	public PostDto getPostById(Integer postid) {
+		Post post = this.postRepo.findById(postid)
+				.orElseThrow(() -> new ResourceNotFoundException("Post", "PostId", postid));
+
+		return this.modelMapper.map(post, PostDto.class);
 	}
 
 	@Override
-	public List<Post> getAllPostByCategory(Integer categoryId) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<PostDto> getAllPostByCategory(Integer categoryId) {
+		Category cat = this.categoryRepo.findById(categoryId)
+				.orElseThrow(() -> new ResourceNotFoundException("Category", "Category Id", categoryId));
+		List<Post> posts = this.postRepo.findByCategory(cat);
+
+		List<PostDto> postDtos = posts.stream().map((post) -> this.modelMapper.map(post, PostDto.class))
+				.collect(Collectors.toList());
+		return postDtos;
 	}
 
 	@Override
-	public List<Post> getAllPostByUser(Integer userId) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<PostDto> getAllPostByUser(Integer userId) {
+		User user = this.userRepo.findById(userId)
+				.orElseThrow(() -> new ResourceNotFoundException("User", "User Id", userId));
+		System.out.println(user);
+
+		List<Post> posts = this.postRepo.findByUser(user);
+
+		List<PostDto> postDtos = posts.stream().map((post) -> this.modelMapper.map(post, PostDto.class))
+				.collect(Collectors.toList());
+		return postDtos;
 	}
 
 	@Override
-	public List<Post> searchPosts(String keyword) {
+	public List<PostDto> searchPosts(String keyword) {
 		// TODO Auto-generated method stub
 		return null;
 	}
