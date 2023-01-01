@@ -8,9 +8,16 @@ import com.socialapp.entities.Category;
 import com.socialapp.entities.Post;
 import com.socialapp.entities.User;
 
-public interface PostRepo extends JpaRepository<Post, Integer>{
-	
+public interface PostRepo extends JpaRepository<Post, Integer> {
+
 	List<Post> findByUser(User user);
+
 	List<Post> findByCategory(Category category);
+
+	List<Post> findByTitleContaining(String title);
+
+	List<Post> findByTitleContainingOrderByUpdatedDateDesc(String title);
+
+	List<Post> findByTitleContainingOrderByUpdatedDateAsc(String title);
 
 }

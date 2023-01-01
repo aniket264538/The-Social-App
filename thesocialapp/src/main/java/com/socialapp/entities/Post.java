@@ -2,14 +2,7 @@ package com.socialapp.entities;
 
 import java.util.Date;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -37,6 +30,24 @@ public class Post {
 	private String imageName;
 	
 	private Date addedDate;
+	
+	@Column(nullable = true)
+	private Date updatedDate;
+
+	@Lob
+	@Column(name="image", nullable = false)
+	private byte[] postImage;
+
+	private Long postSize;
+
+//	@OneToOne
+//	@JoinColumn(name = "image_id", nullable = false)
+//	private Image image;
+
+//	@Lob
+//	@OneToOne
+//	@JoinColumn(name="Image_id", nullable = false)
+//	private MultipartFile postImage;
 	
 	@ManyToOne
 	@JoinColumn(name = "category_id" , nullable = false)
