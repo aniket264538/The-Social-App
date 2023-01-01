@@ -17,7 +17,11 @@ public class UserDto {
 	
 	@NotEmpty
 	@Size(min = 1, message = "Username must be atleast 1 character.")
-	private String name;
+	private String firstName;
+
+	@NotEmpty
+	@Size(min = 1, message = "Username must be atleast 1 character.")
+	private String lastName;
 	
 	@Email(message = "Email should be valid.")
 	private String email;

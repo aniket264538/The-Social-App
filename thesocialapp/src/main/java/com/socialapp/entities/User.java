@@ -21,6 +21,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import net.bytebuddy.implementation.bind.MethodDelegationBinder;
 import org.hibernate.query.criteria.internal.expression.function.AggregationFunction;
 
 @Entity
@@ -35,8 +36,17 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
-	@Column(name = "user_name", nullable = false, length = 100)
-	private String name;
+	@Column(name = "first_name", nullable = false, length = 100)
+	private String firstName;
+
+	@Column(name = "last_name", nullable = false, length = 100)
+	private String lastName;
+
+	@Column(name = "phone_number", nullable = false, length = 10)
+	private long phoneNumber;
+
+	@Column(length = 100)
+	private String Occupation;
 
 	@Email
 	private String email;
