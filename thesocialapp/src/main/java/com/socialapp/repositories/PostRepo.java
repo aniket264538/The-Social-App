@@ -8,9 +8,11 @@ import com.socialapp.entities.Category;
 import com.socialapp.entities.Post;
 import com.socialapp.entities.User;
 
-public interface PostRepo extends JpaRepository<Post, Integer> {
+public interface PostRepo extends JpaRepository<Post, Long> {
 
 	List<Post> findByUser(User user);
+
+	Post findById(long postId);
 
 	List<Post> findByCategory(Category category);
 

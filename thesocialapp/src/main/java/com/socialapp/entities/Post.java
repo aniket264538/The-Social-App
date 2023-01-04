@@ -1,6 +1,8 @@
 package com.socialapp.entities;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.*;
 
@@ -19,7 +21,7 @@ public class Post {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer postId;
+	private Long postId;
 	
 	@Column(length = 100,nullable = false)
 	private String title;
@@ -40,14 +42,8 @@ public class Post {
 
 	private Long postSize;
 
-//	@OneToOne
-//	@JoinColumn(name = "image_id", nullable = false)
-//	private Image image;
-
-//	@Lob
-//	@OneToOne
-//	@JoinColumn(name="Image_id", nullable = false)
-//	private MultipartFile postImage;
+	@OneToMany(mappedBy = "post", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	private Set<Comment> comments = new HashSet<>();
 	
 	@ManyToOne
 	@JoinColumn(name = "category_id" , nullable = false)

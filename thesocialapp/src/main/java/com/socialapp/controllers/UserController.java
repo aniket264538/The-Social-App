@@ -21,14 +21,14 @@ import com.socialapp.payloads.UserDto;
 import com.socialapp.services.UserService;
 
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/api/user")
 public class UserController {
 
 	@Autowired
 	private UserService userService;
 	
 	// POST - create user
-	@PostMapping("/")
+	@PostMapping("/register")
 	public ResponseEntity<UserDto> createUser(@Valid @RequestBody UserDto userDto)
 	{
 		UserDto createUserDto = this.userService.createUser(userDto);
@@ -44,14 +44,14 @@ public class UserController {
 	}
 	
 	@GetMapping("/{userId}")
-	public ResponseEntity<UserDto> getUserById(@PathVariable int userId)
+	public ResponseEntity<UserDto> getUserById(@PathVariable Long userId)
 	{
 		return ResponseEntity.ok(this.userService.getUserById(userId));
 	}
 	
 	//PUT - update user
 	@PutMapping("/{userId}")
-	public ResponseEntity<UserDto> updateUser(@Valid @RequestBody UserDto userDto, @PathVariable int userId)
+	public ResponseEntity<UserDto> updateUser(@Valid @RequestBody UserDto userDto, @PathVariable Long userId)
 	{
 		
 		UserDto updatedUser = this.userService.updateUser(userDto, userId);
@@ -61,7 +61,7 @@ public class UserController {
 	
 	//Delete - Delete user
 	@DeleteMapping("/{userId}")
-	public ResponseEntity<ApiResponse> deleteUser(@PathVariable int userId)
+	public ResponseEntity<ApiResponse> deleteUser(@PathVariable Long userId)
 	{
 		this.userService.deleteUser(userId);
 		return new ResponseEntity<ApiResponse>(new ApiResponse("User Deleted Successfully", true),HttpStatus.OK);

@@ -1,19 +1,20 @@
 package com.socialapp.payloads;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.socialapp.entities.Comment;
+import lombok.*;
 
 @Getter
 @Setter
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 public class PostDto {
 
-	private Integer postId;
+	private Long postId;
 	
 	private String title;
 	
@@ -28,6 +29,8 @@ public class PostDto {
 	private byte[] postImage;
 
 	private Long postSize;
+
+//	private Set<Comment> comments = new HashSet<>();
 	
 	private CategoryDto category;
 	

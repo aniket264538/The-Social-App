@@ -1,17 +1,9 @@
 package com.socialapp.entities;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotEmpty;
@@ -23,6 +15,9 @@ import lombok.Setter;
 import lombok.ToString;
 import net.bytebuddy.implementation.bind.MethodDelegationBinder;
 import org.hibernate.query.criteria.internal.expression.function.AggregationFunction;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity
 @Table(name = "users")
@@ -30,11 +25,11 @@ import org.hibernate.query.criteria.internal.expression.function.AggregationFunc
 @Getter
 @Setter
 @ToString
-public class User {
+public class User implements UserDetails {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	private Long userId;
 
 	@Column(name = "first_name", nullable = false, length = 100)
 	private String firstName;
@@ -43,7 +38,7 @@ public class User {
 	private String lastName;
 
 	@Column(name = "phone_number", nullable = false, length = 10)
-	private long phoneNumber;
+	private Long phoneNumber;
 
 	@Column(length = 100)
 	private String Occupation;
@@ -52,7 +47,7 @@ public class User {
 	private String email;
 
 	@NotEmpty
-	@Size(min = 8,max=16,message = "Password must be min of 8 characters and max of 16 characters.")
+//	@Size(min = 8,max=300,message = "Password must be min of 8 characters and max of 16 characters.")
 	private String password;
 
 	@NotEmpty
@@ -61,4 +56,48 @@ public class User {
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private List<Post> posts = new ArrayList<>();
 
+	@OneToMany(mappedBy = "commenter", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	private Set<Comment> comment;
+
+	@ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+	@JoinTable(
+			name = "user_role",
+			joinColumns = @JoinColumn(name = "user", referencedColumnName = "userid"),
+			inverseJoinColumns = @JoinColumn(name = "role", referencedColumnName = "id")
+	)
+	private  Set<Role> roles = new HashSet<>();
+
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+
+		List<SimpleGrantedAuthority> simpleGrantedAuthorities = this.roles.stream().map(
+				(role) -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
+
+		return simpleGrantedAuthorities;
+	}
+
+	@Override
+	public String getUsername() {
+		return this.email;
+	}
+
+	@Override
+	public boolean isAccountNonExpired() {
+		return true;
+	}
+
+	@Override
+	public boolean isAccountNonLocked() {
+		return true;
+	}
+
+	@Override
+	public boolean isCredentialsNonExpired() {
+		return true;
+	}
+
+	@Override
+	public boolean isEnabled() {
+		return true;
+	}
 }

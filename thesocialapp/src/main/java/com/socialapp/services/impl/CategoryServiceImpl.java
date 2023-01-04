@@ -31,7 +31,7 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
-	public CategoryDto updateCategory(CategoryDto categoryDto, Integer CategoryId) {
+	public CategoryDto updateCategory(CategoryDto categoryDto, Long CategoryId) {
 
 		Category category = this.categoryRepo.findById(CategoryId)
 				.orElseThrow(() -> new ResourceNotFoundException("Category", "Category Id", CategoryId));
@@ -45,7 +45,7 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
-	public CategoryDto getCategoryById(Integer categoryId) {
+	public CategoryDto getCategoryById(Long categoryId) {
 
 		Category category = this.categoryRepo.findById(categoryId)
 				.orElseThrow(() -> new ResourceNotFoundException("Category", "Category Id", categoryId));
@@ -64,7 +64,7 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
-	public void deleteCategory(Integer categoryId) {
+	public void deleteCategory(Long categoryId) {
 
 		Category category = this.categoryRepo.findById(categoryId)
 				.orElseThrow(() -> new ResourceNotFoundException("Category", "Category Id", categoryId));

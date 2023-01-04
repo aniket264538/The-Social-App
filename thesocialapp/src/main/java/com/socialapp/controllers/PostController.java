@@ -1,6 +1,5 @@
 package com.socialapp.controllers;
 
-import antlr.StringUtils;
 import com.socialapp.payloads.ApiResponse;
 import com.socialapp.payloads.PostDto;
 import com.socialapp.services.PostService;
@@ -9,7 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import java.io.IOException;
 import java.util.List;
@@ -29,8 +27,8 @@ public class PostController {
             @RequestParam String title,
             @RequestParam String content,
 			@RequestParam MultipartFile image,
-            @PathVariable Integer userId,
-            @PathVariable Integer categoryId
+            @PathVariable Long userId,
+            @PathVariable Long categoryId
             ) throws IOException {
         System.out.println("Reached inside controller");
         PostDto postDto = new PostDto(title, content);
@@ -46,7 +44,7 @@ public class PostController {
     // Getting all post by a User
     @GetMapping("user/{userId}/posts")
     public ResponseEntity<List<PostDto>> getPostByUser(
-            @PathVariable Integer userId) {
+            @PathVariable Long userId) {
 
         List<PostDto> posts = this.postService.getAllPostByUser(userId);
 
@@ -56,7 +54,7 @@ public class PostController {
     // Getting all post of a Category
     @GetMapping("category/{categoryId}/posts")
     public ResponseEntity<List<PostDto>> getPostByCategory(
-            @PathVariable Integer categoryId) {
+            @PathVariable Long categoryId) {
 
         List<PostDto> posts = this.postService.getAllPostByCategory(categoryId);
 
@@ -74,7 +72,7 @@ public class PostController {
 
     // Getting post by postID
     @GetMapping("posts/{postId}")
-    public ResponseEntity<PostDto> getPostById(@PathVariable Integer postId) {
+    public ResponseEntity<PostDto> getPostById(@PathVariable Long postId) {
 
         PostDto post = this.postService.getPostById(postId);
 
@@ -84,7 +82,7 @@ public class PostController {
 
     // Delete post using Id
     @DeleteMapping("posts/{postId}")
-    public ApiResponse deletePost(@PathVariable Integer postId) {
+    public ApiResponse deletePost(@PathVariable Long postId) {
         this.postService.deletePost(postId);
 
         return new ApiResponse("Post is successfully deleted !!", true);
@@ -92,7 +90,7 @@ public class PostController {
 
     // Updating Post using PostId
     @PutMapping("posts/{postId}")
-    public ResponseEntity<PostDto> updatePost(@RequestBody PostDto postDto, @PathVariable Integer postId) {
+    public ResponseEntity<PostDto> updatePost(@RequestBody PostDto postDto, @PathVariable Long postId) {
         PostDto updatePost = this.postService.updatePost(postDto, postId);
 
         return new ResponseEntity<PostDto>(updatePost, HttpStatus.OK);

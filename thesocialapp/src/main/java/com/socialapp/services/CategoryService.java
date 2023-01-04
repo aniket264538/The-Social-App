@@ -8,13 +8,13 @@ public interface CategoryService {
 
 	CategoryDto createCategory(CategoryDto categoryDto);
 
-	CategoryDto updateCategory(CategoryDto categoryDto, Integer CategoryId);
+	CategoryDto updateCategory(CategoryDto categoryDto, Long CategoryId);
 	
-	CategoryDto getCategoryById(Integer categoryId);
+	CategoryDto getCategoryById(Long categoryId);
 	
 	List<CategoryDto> getallCategory();
 	
-	void deleteCategory(Integer categoryId);
+	void deleteCategory(Long categoryId);
 	
 	
 	

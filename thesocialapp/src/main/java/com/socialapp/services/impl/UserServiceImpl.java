@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.socialapp.entities.User;
@@ -21,7 +22,9 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private ModelMapper modelMapper;
-	
+
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 	
 	@Override
 	public UserDto createUser(UserDto userDto) {
@@ -34,12 +37,15 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public UserDto updateUser(UserDto userDto, Integer userId) {
+	public UserDto updateUser(UserDto userDto, Long userId) {
 		User user = this.userRepo.findById(userId)
 				.orElseThrow(()-> new ResourceNotFoundException("User","id",userId));
 		
-		user.setName(userDto.getName());
+		user.setFirstName(userDto.getFirstName());
+		user.setLastName(userDto.getLastName());
 		user.setEmail(userDto.getEmail());
+		user.setPhoneNumber(userDto.getPhoneNumber());
+		user. setOccupation(userDto.getOccupation());
 		user.setPassword(userDto.getPassword());
 		user.setAbout(userDto.getAbout());
 		
@@ -48,7 +54,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public UserDto getUserById(Integer userId) {
+	public UserDto getUserById(Long userId) {
 		
 		User user = this.userRepo.findById(userId)
 				.orElseThrow(()-> new ResourceNotFoundException("User","Id",userId));
@@ -69,7 +75,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void deleteUser(Integer userId) {
+	public void deleteUser(Long userId) {
 		
 		User user = this.userRepo.findById(userId)
 				.orElseThrow(()-> new ResourceNotFoundException("User","Id",userId));
@@ -84,7 +90,7 @@ public class UserServiceImpl implements UserService {
 	{
 		
 		User user = this.modelMapper.map(userDto,User.class);
-		
+		user.setPassword(passwordEncoder.encode(userDto.getPassword()));
 		/*
 		 * User user = new User(); 
 		 * user.setId(userDto.getId());

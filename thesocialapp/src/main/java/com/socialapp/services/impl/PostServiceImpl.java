@@ -37,7 +37,7 @@ public class PostServiceImpl implements PostService {
     private CategoryRepo categoryRepo;
 
     @Override
-    public PostDto createPost(PostDto postDto, Integer userId, Integer categoryId) throws IOException {
+    public PostDto createPost(PostDto postDto, Long userId, Long categoryId) throws IOException {
 
         User user = this.userRepo.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User", "user Id", userId));
 
@@ -57,7 +57,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public PostDto updatePost(PostDto postDto, Integer postId) {
+    public PostDto updatePost(PostDto postDto, Long postId) {
         Post post = this.postRepo.findById(postId).orElseThrow(() -> new ResourceNotFoundException("Post", "post id", postId));
 
         post.setTitle(postDto.getTitle());
@@ -70,7 +70,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public void deletePost(Integer postId) {
+    public void deletePost(Long postId) {
         Post post = this.postRepo.findById(postId).orElseThrow(() -> new ResourceNotFoundException("Post", "Post Id", postId));
 
         this.postRepo.delete(post);
@@ -88,14 +88,14 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public PostDto getPostById(Integer postid) {
-        Post post = this.postRepo.findById(postid).orElseThrow(() -> new ResourceNotFoundException("Post", "PostId", postid));
+    public PostDto getPostById(Long postId) {
+        Post post = this.postRepo.findById(postId).orElseThrow(() -> new ResourceNotFoundException("Post", "PostId", postId));
 
         return this.modelMapper.map(post, PostDto.class);
     }
 
     @Override
-    public List<PostDto> getAllPostByCategory(Integer categoryId) {
+    public List<PostDto> getAllPostByCategory(Long categoryId) {
         Category category = this.categoryRepo.findById(categoryId).orElseThrow(() -> new ResourceNotFoundException("Category", "Category Id", categoryId));
         List<Post> posts = this.postRepo.findByCategory(category);
 
@@ -104,7 +104,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<PostDto> getAllPostByUser(Integer userId) {
+    public List<PostDto> getAllPostByUser(Long userId) {
         User user = this.userRepo.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User", "User Id", userId));
 
         List<Post> posts = this.postRepo.findByUser(user);

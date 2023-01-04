@@ -27,7 +27,7 @@ public class Category {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 //	@Column(name = "id") Commented because name = id is giving an exception while establishing foreign as the name id is a reserverd keyword.
-	private Integer categoryId;
+	private Long categoryId;
 
 	@Column(name = "title", length = 100, nullable = false)
 	private String categoryTitle;

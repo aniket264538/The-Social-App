@@ -8,13 +8,15 @@ import javax.validation.constraints.Size;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @NoArgsConstructor
 @Getter
 @Setter
+@ToString
 public class UserDto {
 	
-	private int id;
+	private long id;
 	
 	@NotEmpty
 	@Size(min = 1, message = "Username must be atleast 1 character.")
@@ -28,7 +30,7 @@ public class UserDto {
 	private String email;
 
 	@Column(name = "phone_number", nullable = false, length = 10)
-	private long phoneNumber;
+	private Long phoneNumber;
 
 	@Column(length = 100)
 	private String Occupation;
