@@ -1,11 +1,8 @@
 package com.socialapp.payloads;
 
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
-
-import com.socialapp.entities.Comment;
 import lombok.*;
+
+import java.util.Date;
 
 @Getter
 @Setter

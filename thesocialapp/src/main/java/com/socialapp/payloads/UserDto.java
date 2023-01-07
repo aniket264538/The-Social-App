@@ -1,14 +1,14 @@
 package com.socialapp.payloads;
 
-import javax.persistence.Column;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
-
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+
+import javax.persistence.Column;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
 @NoArgsConstructor
 @Getter
@@ -33,7 +33,7 @@ public class UserDto {
 	private Long phoneNumber;
 
 	@Column(length = 100)
-	private String Occupation;
+	private String occupation;
 	
 	@NotEmpty
 	@Size(min = 8,max=16,message = "Password must be min of 8 characters and max of 16 characters.")

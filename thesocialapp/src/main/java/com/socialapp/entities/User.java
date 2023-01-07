@@ -1,23 +1,18 @@
 package com.socialapp.entities;
 
-import java.util.*;
-import java.util.stream.Collectors;
-
-import javax.persistence.*;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
-
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import net.bytebuddy.implementation.bind.MethodDelegationBinder;
-import org.hibernate.query.criteria.internal.expression.function.AggregationFunction;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
+import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "users")
@@ -41,9 +36,11 @@ public class User implements UserDetails {
 	private Long phoneNumber;
 
 	@Column(length = 100)
-	private String Occupation;
+	private String occupation;
 
 	@Email
+	@NotEmpty(message = "This email is already being used.")
+	@Column(unique = true)
 	private String email;
 
 	@NotEmpty
