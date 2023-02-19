@@ -21,7 +21,7 @@ public class PostController {
     private List<PostDto> searchPosts;
 
     // Create Post
-    @PostMapping("/user/{userId}/category/{categoryId}/posts")
+    @PostMapping("user/{userId}/category/{categoryId}/posts")
     public ResponseEntity<PostDto> createPost(
 			/*@RequestBody PostDto postDto,*/
             @RequestParam String title,

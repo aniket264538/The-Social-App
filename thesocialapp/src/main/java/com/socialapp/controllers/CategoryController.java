@@ -13,6 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/categories")
+@CrossOrigin("http://localhost:3000")
 public class CategoryController {
 
 	@Autowired
@@ -25,7 +26,7 @@ public class CategoryController {
 		return new ResponseEntity<CategoryDto>(createCategory, HttpStatus.OK);
 	}
 
-	@GetMapping("")
+	@GetMapping("/")
 	public ResponseEntity<List<CategoryDto>> getCategories()
 	{
 		List<CategoryDto> categoryById = this.categoryService.getallCategory();

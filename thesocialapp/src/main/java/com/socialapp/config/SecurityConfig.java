@@ -31,7 +31,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
-                .authorizeHttpRequests().antMatchers("/api/user/register","/api/auth/login").permitAll()
+                .authorizeHttpRequests().antMatchers(/*"/api/user/register","/api/auth/login"*/"/**").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()
@@ -63,4 +63,30 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
+
+   /* @Bean
+    public FilterRegistrationBean corsFilter()
+    {
+        UrlBasedCorsConfigurationSource source =
+                new UrlBasedCorsConfigurationSource();
+
+        CorsConfiguration corsConfiguration = new CorsConfiguration();
+        corsConfiguration.setAllowCredentials(true);
+        corsConfiguration.addAllowedOriginPattern("http://localhost:3030");
+        corsConfiguration.addAllowedHeader("Authorization");
+        corsConfiguration.addAllowedHeader("Content-Type");
+        corsConfiguration.addAllowedHeader("Accept");
+        corsConfiguration.addAllowedMethod(HttpMethod.GET);
+        corsConfiguration.addAllowedMethod(HttpMethod.DELETE);
+        corsConfiguration.addAllowedMethod(HttpMethod.POST);
+        corsConfiguration.addAllowedMethod(HttpMethod.PUT);
+        corsConfiguration.addAllowedMethod(HttpMethod.OPTIONS);
+        corsConfiguration.setMaxAge(3600L);
+
+
+        source.registerCorsConfiguration("");
+
+        FilterRegistrationBean filterRegistrationBean =
+                new FilterRegistrationBean(new CorsFilter(source));
+    }*/
 }
