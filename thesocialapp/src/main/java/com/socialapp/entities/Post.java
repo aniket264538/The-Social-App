@@ -1,15 +1,14 @@
 package com.socialapp.entities;
 
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
-
-import javax.persistence.*;
-
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+
+import javax.persistence.*;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name="post")
@@ -37,8 +36,11 @@ public class Post {
 	private Date updatedDate;
 
 	@Lob
-	@Column(name="image", nullable = false)
+	@Column(columnDefinition = "MEDIUMBLOB")
 	private byte[] postImage;
+/*	@Lob
+	@Column(name="image", nullable = false)
+	private byte[] postImage;*/
 
 	private Long postSize;
 

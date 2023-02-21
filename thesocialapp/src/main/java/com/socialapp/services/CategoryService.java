@@ -1,8 +1,8 @@
 package com.socialapp.services;
 
-import java.util.List;
-
 import com.socialapp.payloads.CategoryDto;
+
+import java.util.List;
 
 public interface CategoryService {
 

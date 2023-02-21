@@ -9,7 +9,7 @@ import java.util.Date;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class PostDto {
+public class   PostDto {
 
 	private Long postId;
 	
@@ -23,6 +23,7 @@ public class PostDto {
 	
 	private Date updatedDate;
 
+//	private String postImage;
 	private byte[] postImage;
 
 	private Long postSize;

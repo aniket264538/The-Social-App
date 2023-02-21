@@ -1,6 +1,5 @@
 package com.socialapp.payloads;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -43,9 +42,9 @@ public class UserDto {
 	@NotEmpty
 	private String about;
 
-	@JsonIgnore
+	/*@JsonIgnore
 	public String getPassword(){
 		return this.password;
-	}
+	}*/
 
 }

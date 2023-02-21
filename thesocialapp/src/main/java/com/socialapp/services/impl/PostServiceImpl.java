@@ -1,5 +1,6 @@
 package com.socialapp.services.impl;
 
+import com.socialapp.controllers.PostController;
 import com.socialapp.entities.Category;
 import com.socialapp.entities.Post;
 import com.socialapp.entities.User;
@@ -13,8 +14,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import java.io.IOException;
 import java.util.Date;
@@ -44,10 +43,10 @@ public class PostServiceImpl implements PostService {
         Category category = this.categoryRepo.findById(categoryId).orElseThrow(() -> new ResourceNotFoundException("Category", "category Id", categoryId));
 
         Post post = this.modelMapper.map(postDto, Post.class);
-        post.setImageName(postDto.getImageName());
+//        post.setImageName(postDto.getImageName());
         post.setAddedDate(new Date());
-        post.setPostImage(postDto.getPostImage());
-        post.setPostSize(postDto.getPostSize());
+//        post.setPostImage(postDto.getPostImage());
+//        post.setPostSize(postDto.getPostSize());
         post.setUser(user);
         post.setCategory(category);
 
@@ -90,8 +89,9 @@ public class PostServiceImpl implements PostService {
     @Override
     public PostDto getPostById(Long postId) {
         Post post = this.postRepo.findById(postId).orElseThrow(() -> new ResourceNotFoundException("Post", "PostId", postId));
-
-        return this.modelMapper.map(post, PostDto.class);
+        PostDto postDto = this.modelMapper.map(post, PostDto.class);
+        postDto.setPostImage(PostController.decompressBytes(post.getPostImage()));
+        return postDto;
     }
 
     @Override
