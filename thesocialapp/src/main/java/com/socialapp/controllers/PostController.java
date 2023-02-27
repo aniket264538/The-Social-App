@@ -6,13 +6,13 @@ import com.socialapp.services.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.List;
+import java.util.Set;
 import java.util.zip.DataFormatException;
 import java.util.zip.Deflater;
 import java.util.zip.Inflater;
@@ -29,7 +29,7 @@ public class PostController {
     // Create Post
     @PostMapping("user/{userId}/category/{categoryId}/posts")
     public ResponseEntity<PostDto> createPost(
-//			@RequestBody PostDto postDto,
+			/*@RequestBody PostDto postDto,*/
             @RequestParam String title,
             @RequestParam String content,
 			@RequestParam MultipartFile image,
@@ -39,13 +39,17 @@ public class PostController {
         System.out.println("Reached inside controller");
         PostDto postDto = new PostDto(title, content);
 
-//        postDto.setPostImage(Base64.getEncoder().encodeToString(postDto.getPostImage().getBytes()));
+        /*   postDto.setPostImage(Base64.getEncoder().
+          encodeToString(postDto.getPostImage().getBytes()));*/      /*Method - 1*/
 //        postDto.setPostSize(image.getSize());
 //        postDto.setImageName(StringUtils.cleanPath(image.getOriginalFilename()));
 
-        postDto.setPostImage(compressBytes((image.getBytes())));
+//        postDto.setPostImage(compressBytes((image.getBytes())));  method - 2
+
+        postDto.setPostImage(image.getBytes());
         postDto.setPostSize(image.getSize());
-        postDto.setImageName(StringUtils.cleanPath(image.getOriginalFilename()));
+        postDto.setImageName(image.getOriginalFilename());
+
         PostDto createPost = this.postService.createPost(postDto, userId, categoryId);
 
         return new ResponseEntity<PostDto>(createPost, HttpStatus.CREATED);
@@ -63,13 +67,22 @@ public class PostController {
     }
 
     // Getting all post of a Category
-    @GetMapping("category/{categoryId}/posts")
+/*    @GetMapping("category/{categoryId}/posts")
     public ResponseEntity<List<PostDto>> getPostByCategory(
             @PathVariable Long categoryId) {
 
         List<PostDto> posts = this.postService.getAllPostByCategory(categoryId);
 
         return new ResponseEntity<List<PostDto>>(posts, HttpStatus.OK);
+    }*/
+
+    @GetMapping("category/{categoryId}/posts")
+    public ResponseEntity<Set<PostDto>> getPostsOfMultipleCategory(
+            @PathVariable Long[] categoryId) {
+
+        Set<PostDto> posts = this.postService.getPostsofMultipleCategory(categoryId);
+
+        return new ResponseEntity<Set<PostDto>>(posts, HttpStatus.OK);
     }
 
     // Getting all the posts

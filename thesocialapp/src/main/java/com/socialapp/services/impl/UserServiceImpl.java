@@ -1,18 +1,17 @@
 package com.socialapp.services.impl;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
-import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
-
 import com.socialapp.entities.User;
 import com.socialapp.exceptions.ResourceNotFoundException;
 import com.socialapp.payloads.UserDto;
 import com.socialapp.repositories.UserRepo;
 import com.socialapp.services.UserService;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -58,7 +57,7 @@ public class UserServiceImpl implements UserService {
 		
 		User user = this.userRepo.findById(userId)
 				.orElseThrow(()-> new ResourceNotFoundException("User","Id",userId));
-		
+//		String role = user.getRoles().toString();
 		return this.userToDto(user);
 		
 	}
