@@ -64,7 +64,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return super.authenticationManagerBean();
     }
 
-   /* @Bean
+    /*@Bean
     public FilterRegistrationBean corsFilter()
     {
         UrlBasedCorsConfigurationSource source =

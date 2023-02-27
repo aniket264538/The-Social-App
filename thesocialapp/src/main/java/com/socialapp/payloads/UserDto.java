@@ -42,9 +42,11 @@ public class UserDto {
 	@NotEmpty
 	private String about;
 
-	/*@JsonIgnore
+	/*
+	@JsonIgnore
 	public String getPassword(){
 		return this.password;
-	}*/
+	}
+	*/
 
 }

@@ -36,7 +36,7 @@ public class Post {
 	private Date updatedDate;
 
 	@Lob
-	@Column(columnDefinition = "MEDIUMBLOB")
+	@Column(name="image", nullable = false, columnDefinition = "MEDIUMBLOB")
 	private byte[] postImage;
 /*	@Lob
 	@Column(name="image", nullable = false)

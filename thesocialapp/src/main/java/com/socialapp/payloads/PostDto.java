@@ -39,5 +39,9 @@ public class   PostDto {
 		this.title =title;
 		this.content=content;
 	}
+
+//	public byte[] getPostImage(){
+//		return postImage.getBytes();
+//	}
 	
 }

@@ -16,8 +16,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.Date;
-import java.util.List;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -45,8 +46,10 @@ public class PostServiceImpl implements PostService {
         Post post = this.modelMapper.map(postDto, Post.class);
 //        post.setImageName(postDto.getImageName());
         post.setAddedDate(new Date());
+        post.setUpdatedDate(post.getAddedDate());
 //        post.setPostImage(postDto.getPostImage());
 //        post.setPostSize(postDto.getPostSize());
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         post.setUser(user);
         post.setCategory(category);
 
@@ -79,28 +82,58 @@ public class PostServiceImpl implements PostService {
     @Override
     public List<PostDto> getAllPost() {
 
-        List<Post> posts = this.postRepo.findAll(Sort.by("updatedDate").descending());
+        List<Post> posts = this.postRepo.findAll(Sort.by("addedDate").descending());
 
-        List<PostDto> postDtos = posts.stream().map((post) -> this.modelMapper.map(post, PostDto.class)).collect(Collectors.toList());
+        List<PostDto> postDtos = posts.stream()
+                .map((post) -> this.modelMapper.map(post, PostDto.class)).collect(Collectors.toList());
+
 
         return postDtos;
     }
 
     @Override
     public PostDto getPostById(Long postId) {
-        Post post = this.postRepo.findById(postId).orElseThrow(() -> new ResourceNotFoundException("Post", "PostId", postId));
+        Post post = this.postRepo.findById(postId)
+                .orElseThrow(() -> new ResourceNotFoundException("Post", "PostId", postId));
+
         PostDto postDto = this.modelMapper.map(post, PostDto.class);
         postDto.setPostImage(PostController.decompressBytes(post.getPostImage()));
+
         return postDto;
     }
 
     @Override
     public List<PostDto> getAllPostByCategory(Long categoryId) {
-        Category category = this.categoryRepo.findById(categoryId).orElseThrow(() -> new ResourceNotFoundException("Category", "Category Id", categoryId));
+        Category category = this.categoryRepo.findById(categoryId)
+                .orElseThrow(() -> new ResourceNotFoundException("Category", "Category Id", categoryId));
         List<Post> posts = this.postRepo.findByCategory(category);
 
-        List<PostDto> postDtos = posts.stream().map((post) -> this.modelMapper.map(post, PostDto.class)).collect(Collectors.toList());
+        List<PostDto> postDtos = posts.stream().map((post) -> this.modelMapper.map(post, PostDto.class))
+                .collect(Collectors.toList());
+
         return postDtos;
+    }
+
+    @Override
+    public Set<PostDto> getPostsofMultipleCategory(Long[] categoryId) {
+        List<Post> multipleCategoryPostList = new ArrayList<>();
+        for (Long category : categoryId) {
+            Category categoryById = this.categoryRepo.findById(category)
+                    .orElseThrow(() -> new ResourceNotFoundException("Category", "Category Id", category));
+
+            multipleCategoryPostList.addAll(this.postRepo.findByCategory(categoryById));
+        }
+
+        List<PostDto> multipleCategoryPostDtoList = multipleCategoryPostList.stream()
+                .map((post) -> this.modelMapper.map(post, PostDto.class))
+                .collect(Collectors.toList());
+
+        Collections.sort(multipleCategoryPostDtoList, new sortItems().reversed());
+
+        Set<PostDto> multipleCategoryPostDtoSet = multipleCategoryPostDtoList.stream().collect(Collectors.toSet());
+
+
+        return multipleCategoryPostDtoSet;
     }
 
     @Override
@@ -122,4 +155,17 @@ public class PostServiceImpl implements PostService {
         return postDtos;
     }
 
+}
+
+class sortItems implements Comparator<PostDto> {
+
+    // Method of this class
+    // @Override
+    public int compare(PostDto a, PostDto b)
+    {
+
+        // Returning the value after comparing the objects
+        // this will sort the data in Ascending order
+        return a.getAddedDate().compareTo(b.getAddedDate());
+    }
 }
