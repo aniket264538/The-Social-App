@@ -29,6 +29,9 @@ public class UserDto {
 	@Email(message = "Email should be valid.")
 	private String email;
 
+	@Column(nullable = false, length = 1000000000)
+	private byte[] profileImage;
+
 	@Column(name = "phone_number", nullable = false, length = 10)
 	private Long phoneNumber;
 

@@ -1,9 +1,9 @@
 package com.socialapp.repositories;
 
-import org.springframework.data.repository.CrudRepository;
-
 import com.socialapp.entities.Category;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface CategoryRepo extends CrudRepository<Category, Long> {
+public interface CategoryRepo extends JpaRepository<Category, Long> {
+
 
 }

@@ -43,6 +43,10 @@ public class User implements UserDetails {
 	@Column(unique = true)
 	private String email;
 
+	@Lob
+	@Column(name="image", nullable = false, columnDefinition = "MEDIUMBLOB")
+	private byte[] profileImage;
+
 	@NotEmpty
 //	@Size(min = 8,max=300,message = "Password must be min of 8 characters and max of 16 characters.")
 	private String password;
@@ -53,6 +57,8 @@ public class User implements UserDetails {
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private List<Post> posts = new ArrayList<>();
 
+
+	private List<Post> savedPosts = new ArrayList<>();
 	@OneToMany(mappedBy = "commenter", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Set<Comment> comment;
 
