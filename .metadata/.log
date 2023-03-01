@@ -1138,3 +1138,45 @@ java.util.concurrent.TimeoutException
 	at org.springframework.tooling.jdt.ls.commons.classpath.SendClasspathNotificationsJob.flush(SendClasspathNotificationsJob.java:177)
 	at org.springframework.tooling.jdt.ls.commons.classpath.SendClasspathNotificationsJob.run(SendClasspathNotificationsJob.java:148)
 	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+!SESSION 2023-02-19 14:06:05.134 -----------------------------------------------
+eclipse.buildId=4.25.0.I20220831-1800
+java.version=17.0.5
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_US
+Framework arguments:  -product org.eclipse.epp.package.jee.product
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.jee.product
+
+!ENTRY org.springframework.ide.eclipse.boot.dash.cf 4 0 2023-02-19 14:07:14.537
+!MESSAGE FrameworkEvent ERROR
+!STACK 0
+org.osgi.framework.BundleException: Could not resolve module: org.springframework.ide.eclipse.boot.dash.cf [951]
+  Bundle was not resolved because of a uses constraint violation.
+  org.apache.felix.resolver.reason.ReasonException: Uses constraint violation. Unable to resolve resource org.springframework.ide.eclipse.boot.dash.cf [osgi.identity; type="osgi.bundle"; version:Version="4.16.1.202210240748"; osgi.identity="org.springframework.ide.eclipse.boot.dash.cf"; singleton:="true"] because it is exposed to package 'org.bouncycastle.asn1' from resources org.bouncycastle.bcprov [osgi.identity; type="osgi.bundle"; version:Version="1.71.0.v20220723-1943"; osgi.identity="org.bouncycastle.bcprov"] and bcprov [osgi.identity; type="osgi.bundle"; version:Version="1.72.0"; osgi.identity="bcprov"] via two dependency chains.
+
+Chain 1:
+  org.springframework.ide.eclipse.boot.dash.cf [osgi.identity; type="osgi.bundle"; version:Version="4.16.1.202210240748"; osgi.identity="org.springframework.ide.eclipse.boot.dash.cf"; singleton:="true"]
+    require: (&(osgi.wiring.bundle=org.bouncycastle.bcprov)(bundle-version>=1.59.0))
+     |
+    provide: osgi.wiring.bundle: org.bouncycastle.bcprov
+  org.bouncycastle.bcprov [osgi.identity; type="osgi.bundle"; version:Version="1.71.0.v20220723-1943"; osgi.identity="org.bouncycastle.bcprov"]
+
+Chain 2:
+  org.springframework.ide.eclipse.boot.dash.cf [osgi.identity; type="osgi.bundle"; version:Version="4.16.1.202210240748"; osgi.identity="org.springframework.ide.eclipse.boot.dash.cf"; singleton:="true"]
+    require: (&(osgi.wiring.bundle=org.bouncycastle.bcpkix)(bundle-version>=1.59.0))
+     |
+    provide: osgi.wiring.bundle; bundle-version:Version="1.72.0.v20221013-1810"; osgi.wiring.bundle="org.bouncycastle.bcpkix"
+  org.bouncycastle.bcpkix [osgi.identity; type="osgi.bundle"; version:Version="1.72.0.v20221013-1810"; osgi.identity="org.bouncycastle.bcpkix"]
+    import: (&(osgi.wiring.package=org.bouncycastle.asn1)(&(version>=1.72.0)(!(version>=1.73.0))))
+     |
+    export: osgi.wiring.package: org.bouncycastle.asn1
+  bcprov [osgi.identity; type="osgi.bundle"; version:Version="1.72.0"; osgi.identity="bcprov"]
+	at org.eclipse.osgi.container.Module.start(Module.java:463)
+	at org.eclipse.osgi.container.ModuleContainer$ContainerStartLevel$2.run(ModuleContainer.java:1852)
+	at org.eclipse.osgi.internal.framework.EquinoxContainerAdaptor$1$1.execute(EquinoxContainerAdaptor.java:136)
+	at org.eclipse.osgi.container.ModuleContainer$ContainerStartLevel.incStartLevel(ModuleContainer.java:1845)
+	at org.eclipse.osgi.container.ModuleContainer$ContainerStartLevel.incStartLevel(ModuleContainer.java:1786)
+	at org.eclipse.osgi.container.ModuleContainer$ContainerStartLevel.doContainerStartLevel(ModuleContainer.java:1750)
+	at org.eclipse.osgi.container.ModuleContainer$ContainerStartLevel.dispatchEvent(ModuleContainer.java:1672)
+	at org.eclipse.osgi.container.ModuleContainer$ContainerStartLevel.dispatchEvent(ModuleContainer.java:1)
+	at org.eclipse.osgi.framework.eventmgr.EventManager.dispatchEvent(EventManager.java:234)
+	at org.eclipse.osgi.framework.eventmgr.EventManager$EventThread.run(EventManager.java:345)
