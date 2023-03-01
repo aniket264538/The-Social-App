@@ -58,7 +58,8 @@ public class User implements UserDetails {
 	private List<Post> posts = new ArrayList<>();
 
 
-	private List<Post> savedPosts = new ArrayList<>();
+//	private List<Post> savedPosts = new ArrayList<>();
+
 	@OneToMany(mappedBy = "commenter", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Set<Comment> comment;
 
