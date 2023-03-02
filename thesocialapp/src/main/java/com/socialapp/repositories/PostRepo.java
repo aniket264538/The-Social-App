@@ -1,12 +1,11 @@
 package com.socialapp.repositories;
 
-import java.util.List;
-
-import org.springframework.data.jpa.repository.JpaRepository;
-
 import com.socialapp.entities.Category;
 import com.socialapp.entities.Post;
 import com.socialapp.entities.User;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.List;
 
 public interface PostRepo extends JpaRepository<Post, Long> {
 
@@ -18,7 +17,10 @@ public interface PostRepo extends JpaRepository<Post, Long> {
 
 	List<Post> findByTitleContaining(String title);
 
-	List<Post> findByTitleContainingOrderByUpdatedDateDesc(String title);
+	List<Post> findByTitleContainingOrderByAddedDateDesc(String title);
+
+//	List<Post> findByTitleContainingOrderByAddedDateDesc(String title);
+
 
 	List<Post> findByTitleContainingOrderByUpdatedDateAsc(String title);
 

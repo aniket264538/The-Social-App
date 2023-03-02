@@ -16,6 +16,8 @@ public class   PostDto {
 	private String title;
 	
 	private String content;
+
+	private String caption;
 	
 	private String imageName;
 	
@@ -34,10 +36,11 @@ public class   PostDto {
 	
 	private UserDto user;
 
-	public PostDto(String title, String content)
+	public PostDto(String title, String content, String caption)
 	{
 		this.title =title;
 		this.content=content;
+		this.caption = caption;
 	}
 
 //	public byte[] getPostImage(){

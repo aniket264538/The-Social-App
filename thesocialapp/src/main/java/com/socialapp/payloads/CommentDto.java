@@ -1,7 +1,5 @@
 package com.socialapp.payloads;
 
-import com.socialapp.entities.Post;
-import com.socialapp.entities.User;
 import lombok.*;
 import org.hibernate.validator.constraints.Length;
 
@@ -17,7 +15,7 @@ public class CommentDto {
 
     private long id;
 
-    private PostDto post;
+//    private PostDto post;
 
     private Date date;
 

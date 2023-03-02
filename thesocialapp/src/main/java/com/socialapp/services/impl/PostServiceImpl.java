@@ -64,6 +64,7 @@ public class PostServiceImpl implements PostService {
 
         post.setTitle(postDto.getTitle());
         post.setContent(postDto.getContent());
+        post.setCaption(post.getCaption());
         post.setImageName(postDto.getImageName());
         post.setUpdatedDate(new Date());
         Post savedPost = this.postRepo.save(post);
@@ -148,7 +149,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public List<PostDto> searchPosts(String keyword) {
-        List<Post> posts = this.postRepo.findByTitleContainingOrderByUpdatedDateDesc(keyword);
+        List<Post> posts = this.postRepo.findByTitleContainingOrderByAddedDateDesc(keyword);
 
         List<PostDto> postDtos = posts.stream().map((post) -> this.modelMapper.map(post, PostDto.class)).collect(Collectors.toList());
 

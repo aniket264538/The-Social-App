@@ -31,13 +31,14 @@ public class PostController {
     public ResponseEntity<PostDto> createPost(
 			/*@RequestBody PostDto postDto,*/
             @RequestParam String title,
+            @RequestParam String caption,
             @RequestParam String content,
 			@RequestParam MultipartFile image,
             @PathVariable Long userId,
             @PathVariable Long categoryId
             ) throws IOException {
         System.out.println("Reached inside controller");
-        PostDto postDto = new PostDto(title, content);
+        PostDto postDto = new PostDto(title, content, caption);
 
         /*   postDto.setPostImage(Base64.getEncoder().
           encodeToString(postDto.getPostImage().getBytes()));*/      /*Method - 1*/

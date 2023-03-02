@@ -16,7 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -73,7 +72,7 @@ public class CommentServiceImpl implements CommentService {
 //        System.out.println(comments);
 
         Set<CommentDto> commentDtoSet = comments.stream().map(comment ->
-                this.modelMapper.map(comments, CommentDto.class)).collect(Collectors.toSet());
+                this.modelMapper.map(comment, CommentDto.class)).collect(Collectors.toSet());
 
         System.out.println(commentDtoSet);
 
