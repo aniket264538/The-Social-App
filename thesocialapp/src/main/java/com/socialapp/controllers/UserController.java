@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.io.IOException;
@@ -22,9 +23,25 @@ public class UserController {
 
     // POST - create user
     @PostMapping("/register")
-    public ResponseEntity<UserDto> createUser(@Valid @RequestBody UserDto userDto/*, @RequestParam MultipartFile image*/) throws IOException {
+    public ResponseEntity<UserDto> createUser(@Valid /*@RequestBody UserDto userDto*/ @RequestParam String firstName,
+            @RequestParam String lastName,
+                                              @RequestParam String email,
+                                              @RequestParam Long phoneNumber,
+                                              @RequestParam String occupation,
+                                              @RequestParam String password,
+                                              @RequestParam String about,
+                                              @RequestParam MultipartFile image) throws IOException {
 
-//        userDto.setProfileImage(image.getBytes());
+        UserDto userDto = new UserDto();
+        userDto.setFirstName(firstName);
+        userDto.setLastName(lastName);
+        userDto.setEmail(email);
+        userDto.setPhoneNumber(phoneNumber);
+        userDto.setOccupation(occupation);
+        userDto.setPassword(password);
+        userDto.setAbout(about);
+        userDto.setProfileImage(image.getBytes());
+
         UserDto createUserDto = this.userService.createUser(userDto);
 
         return new ResponseEntity<>(createUserDto, HttpStatus.CREATED);
