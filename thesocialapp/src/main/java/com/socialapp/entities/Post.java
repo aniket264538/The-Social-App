@@ -27,6 +27,8 @@ public class Post {
 	
 	@Column(length = 10000)
 	private String content;
+
+	private String caption;
 	
 	private String imageName;
 	

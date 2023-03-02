@@ -11,11 +11,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api/posts/")
+@RequestMapping("/api/bookmarks")
 @CrossOrigin("http://localhost:3000")
 public class BookmarkController {
 
@@ -28,21 +29,26 @@ public class BookmarkController {
     @Autowired
     private ModelMapper modelMapper;
 
-    @PostMapping("bookmark/{userId}/post/{postId}")
-    public ResponseEntity<Bookmark> bookmarkPost(@RequestParam Long postId, @RequestParam Long userId) {
+    @PostMapping("/user/{userId}/post/{postId}")
+    public ResponseEntity<Bookmark> bookmarkPost(@PathVariable Long postId, @PathVariable Long userId) {
         Bookmark bookmark = new Bookmark();
         bookmark.setPostId(postId);
         bookmark.setUserId(userId);
         return new ResponseEntity<>(bookmarkRepository.save(bookmark), HttpStatus.CREATED);
     }
 
-    @GetMapping("bookmarks/{userId}")
-    public ResponseEntity<List<PostDto>> getAllBookmarkedPosts(@RequestParam Long userId) {
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<PostDto>> getAllBookmarkedPosts(@PathVariable Long userId) {
         List<Bookmark> bookmarks = bookmarkRepository.findByUserId(userId);
-        List<Long> postIds = bookmarks.stream().map(Bookmark::getPostId).collect(Collectors.toList());
+        /*List<Long> postIds = bookmarks.stream().map(Bookmark::getPostId).collect(Collectors.toList());*/
+        List<Long> postIds = new ArrayList<>();
+        for (Bookmark bookmark : bookmarks) {
+            Long postId = bookmark.getPostId();
+            postIds.add(postId);
+        }
         List<Post> savedPost = postRepo.findAllById(postIds);
         List<PostDto> postDtos = savedPost.stream().map(post ->
-                this.modelMapper.map(savedPost, PostDto.class)).collect(Collectors.toList());
+                this.modelMapper.map(post, PostDto.class)).collect(Collectors.toList());
 
         return new ResponseEntity<>(postDtos,HttpStatus.OK);
     }
