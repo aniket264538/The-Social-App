@@ -25,7 +25,7 @@ public class Post {
 	@Column(length = 100,nullable = false)
 	private String title;
 	
-	@Column(length = 10000)
+	@Column(columnDefinition = "TEXT")
 	private String content;
 
 	private String caption;
